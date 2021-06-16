@@ -21,24 +21,18 @@ class TrainYard
 
   def sorted_cargo_list
     trains.each_with_object([]) do |train, array|
-      train.cargo.keys.each do |car|
-        array << car.type
-      end
+      train.cargo.keys.each { |car| array << car.type }
     end.uniq.sort
   end
 
   def total_inventory
     trains.each_with_object(Hash.new(0)) do |train, hash|
-      train.cargo.keys.each do |car|
-        hash[car] += train.count_cars(car)
-      end
+      train.cargo.keys.each { |car| hash[car] += train.count_cars(car) }
     end
   end
 
   def car_on_only_one_train?(car)
-    trains.one? do |train|
-      train.cargo.keys.include?(car)
-    end
+    trains.one? { |train| train.cargo.keys.include?(car) }
   end
 
   def overflow_cars
