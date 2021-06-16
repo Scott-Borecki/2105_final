@@ -5,6 +5,7 @@ require_relative 'spec_helper'
 RSpec.describe Train do
   before :each do
     @train1 = Train.new({name: 'Thomas', type: 'Tank'})
+    
     @car1 = Car.new({type: 'Mail', weight: 5})
     @car2 = Car.new({type: 'Passengers', weight: 1})
   end
