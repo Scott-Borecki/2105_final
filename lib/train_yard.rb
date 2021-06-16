@@ -38,7 +38,8 @@ class TrainYard
   def overflow_cars
     trains.each_with_object([]) do |train, array|
       train.cargo.keys.each do |car|
-        array << car if (total_inventory[car] > 10) && (car_on_only_one_train?(car) == false)
+        array << car if (total_inventory[car] > 10) &&
+                        (car_on_only_one_train?(car) == false)
       end
     end.uniq
   end
@@ -47,25 +48,24 @@ class TrainYard
     total_inventory[car] > quantity
   end
 
-  def unload(car, quantity)
-    if enough_in_stock?(car, quantity) == true
-      counter = quantity
-      trains.each do |train|
-        if train.cargo[car] > counter
-          until counter == 0
-            train.cargo[car] -= 1
-            counter -= 1
-          end
-        elsif train.cargo[car] < counter
-          until train.cargo[car] == 0
-            train.cargo[car] -= 1
-            counter -= 1
-          end
+  def unload_cars(car, quantity)
+    counter = quantity
+    trains.each do |train|
+      if train.cargo[car] > counter
+        until counter == 0
+          train.cargo[car] -= 1
+          counter -= 1
+        end
+      elsif train.cargo[car] < counter
+        until train.cargo[car] == 0
+          train.cargo[car] -= 1
+          counter -= 1
         end
       end
-      true
-    else
-      false
     end
+  end
+
+  def unload(car, quantity)
+    enough_in_stock?(car, quantity) ? (unload_cars(car, quantity); true) : false
   end
 end

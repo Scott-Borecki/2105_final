@@ -125,6 +125,13 @@ RSpec.describe TrainYard do
     end
 
     it 'can unload cars' do
+      @train_yard.unload_cars(@car1, 7)
+
+      expect(@train1.count_cars(@car1)).to eq(0)
+      expect(@train2.count_cars(@car1)).to eq(1)
+    end
+
+    it 'can unload cars and return boolean' do
       actual   = @train_yard.unload(@car3, 100)
       expected = false
       expect(actual).to eq(expected)
