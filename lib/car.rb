@@ -6,5 +6,4 @@ class Car
     @type   = data[:type]
     @weight = data[:weight]
   end
-
 end
