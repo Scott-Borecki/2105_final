@@ -17,4 +17,7 @@ class Train
     cargo[car] += num_cars
   end
 
+  def weight
+    cargo.sum { |(car, num_cars)| num_cars * car.weight }
+  end
 end
