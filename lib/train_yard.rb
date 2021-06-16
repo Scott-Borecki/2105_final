@@ -48,4 +48,30 @@ class TrainYard
       end
     end.uniq
   end
+
+  def enough_in_stock?(car, quantity)
+    total_inventory[car] > quantity
+  end
+
+  def unload(car, quantity)
+    if enough_in_stock?(car, quantity) == true
+      counter = quantity
+      trains.each do |train|
+        if train.cargo[car] > counter
+          until counter == 0
+            train.cargo[car] -= 1
+            counter -= 1
+          end
+        elsif train.cargo[car] < counter
+          until train.cargo[car] == 0
+            train.cargo[car] -= 1
+            counter -= 1
+          end
+        end
+      end
+      true
+    else
+      false
+    end
+  end
 end

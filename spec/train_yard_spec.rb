@@ -66,7 +66,7 @@ RSpec.describe TrainYard do
     end
   end
 
-  describe 'Object Methods - Iteration 3' do
+  describe 'Object Methods - Iterations 3 & 4' do
     before :each do
       @train1.add_cars(@car1, 5)
       @train2.add_cars(@car1, 3)
@@ -111,6 +111,29 @@ RSpec.describe TrainYard do
       actual   = @train_yard.overflow_cars
       expected = [@car1]
       expect(actual).to eq(expected)
+    end
+
+    it 'can return whether the enough item is in stock' do
+      actual   = @train_yard.enough_in_stock?(@car3, 100)
+      expected = false
+      expect(actual).to eq(expected)
+
+      actual   = @train_yard.enough_in_stock?(@car1, 7)
+      expected = true
+      expect(actual).to eq(expected)
+    end
+
+    it 'can unload cars' do
+      actual   = @train_yard.unload(@car3, 100)
+      expected = false
+      expect(actual).to eq(expected)
+
+      actual   = @train_yard.unload(@car1, 7)
+      expected = true
+      expect(actual).to eq(expected)
+
+      expect(@train1.count_cars(@car1)).to eq(0)
+      expect(@train2.count_cars(@car1)).to eq(1)
     end
   end
 end
