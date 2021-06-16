@@ -1,6 +1,7 @@
 require_relative '../lib/car'
 require_relative '../lib/train'
 require_relative '../lib/train_yard'
+require_relative 'spec_helper'
 
 RSpec.describe TrainYard do
   before :each do
