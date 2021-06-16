@@ -14,17 +14,6 @@ RSpec.describe TrainYard do
     @train3 = Train.new({name: 'Nia', type: 'Tank'})
     @train4 = Train.new({name: 'Gordon', type: 'Express'})
 
-    @train1.add_cars(@car1, 5)
-    @train1.add_cars(@car2, 2)
-
-    @train2.add_cars(@car1, 3)
-    @train2.add_cars(@car4, 4)
-
-    @train3.add_cars(@car1, 1)
-
-    @train4.add_cars(@car4, 5)
-    @train4.add_cars(@car3, 10)
-
     @train_yard = TrainYard.new({location: 'Brighton'})
   end
 
@@ -39,13 +28,25 @@ RSpec.describe TrainYard do
     end
   end
 
-  describe 'Object Methods' do
+  describe 'Object Methods - Iteration 2' do
     before :each do
+      @train1.add_cars(@car1, 5)
+      @train1.add_cars(@car2, 2)
+
+      @train2.add_cars(@car1, 3)
+      @train2.add_cars(@car4, 4)
+
+      @train3.add_cars(@car1, 1)
+
+      @train4.add_cars(@car4, 5)
+      @train4.add_cars(@car3, 10)
+
       @train_yard.add_train(@train1)
       @train_yard.add_train(@train2)
       @train_yard.add_train(@train3)
       @train_yard.add_train(@train4)
     end
+
     it 'can add trains' do
       actual   = @train_yard.trains
       expected = [@train1, @train2, @train3, @train4]
@@ -61,6 +62,54 @@ RSpec.describe TrainYard do
     it 'can return the trains containing a type of car' do
       actual   = @train_yard.trains_containing(@car1)
       expected = [@train1, @train2, @train3]
+      expect(actual).to eq(expected)
+    end
+  end
+
+  describe 'Object Methods - Iteration 3' do
+    before :each do
+      @train1.add_cars(@car1, 5)
+      @train2.add_cars(@car1, 3)
+      @train2.add_cars(@car4, 4)
+
+      @train3.add_cars(@car1, 4)
+
+      @train4.add_cars(@car4, 5)
+      @train4.add_cars(@car3, 10)
+
+      @train_yard.add_train(@train1)
+      @train_yard.add_train(@train2)
+      @train_yard.add_train(@train3)
+      @train_yard.add_train(@train4)
+    end
+
+    it 'can return a sorted cargo list' do
+      actual   = @train_yard.sorted_cargo_list
+      expected = ['Cattle', 'Dining', 'Mail']
+      expect(actual).to eq(expected)
+    end
+
+    it 'can return the total inventory' do
+      actual   = @train_yard.total_inventory
+      expected = { @car1 => 12,
+                   @car3 => 10,
+                   @car4 => 9 }
+      expect(actual).to eq(expected)
+    end
+
+    it 'can return whether the car is on only one train' do
+      actual   = @train_yard.car_on_only_one_train?(@car1)
+      expected = false
+      expect(actual).to eq(expected)
+
+      actual   = @train_yard.car_on_only_one_train?(@car3)
+      expected = true
+      expect(actual).to eq(expected)
+    end
+
+    it 'can return the overflow cars' do
+      actual   = @train_yard.overflow_cars
+      expected = [@car1]
       expect(actual).to eq(expected)
     end
   end
